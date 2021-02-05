@@ -61,13 +61,18 @@ class LichessApi {
     });
   }
 
+  currentGames() {
+    return this.get('https://lichess.org/api/account/playing')
+  }
+
   logAndReturn(data) {
-    console.log(JSON.stringify(data.data));
+    // console.log(JSON.stringify(data.data));
     return data;
   }
 
   get(URL) {
-    console.log(`GET ${URL}`);
+    // temporary hack to supress health check logging
+    if (URL != 'https://lichess.org/api/account/playing') console.log(`GET ${URL}`)
     return axios.get(URL + "?v=" + Date.now(), this.axiosConfig)
       .then(this.logAndReturn)
       .catch(err => console.log(err));
@@ -87,13 +92,13 @@ class LichessApi {
    */
   stream(URL, handler) {
     console.log(`GET ${URL} stream`);
-    oboe({
+    return oboe({
         method: "GET",
         url: this.baseURL + URL,
         headers: this.headers,
       })
       .node("!", function(data) {
-        console.log("STREAM data : " + JSON.stringify(data));
+        // console.log("STREAM data : " + JSON.stringify(data));
         handler(data);
       }).fail(function(errorReport) {
         console.error(JSON.stringify(errorReport));

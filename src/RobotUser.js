@@ -41,6 +41,8 @@ class RobotUser {
   }
 
   async handleChallenge(challenge) {
+    console.log(this.api) 
+
     if (challenge.rated) {
       console.log("Declining rated challenge from " + challenge.challenger.id);
       const response = await this.api.declineChallenge(challenge.id);

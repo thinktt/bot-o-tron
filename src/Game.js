@@ -48,10 +48,10 @@ class Game {
     }
   }
 
-  playNextMove(previousMoves) {
+  async playNextMove(previousMoves) {
     const moves = (previousMoves === "") ? [] : previousMoves.split(" ");
     if (this.isTurn(this.colour, moves)) {
-      const nextMove = this.player.getNextMove(moves);
+      const nextMove = await this.player.getNextMove(moves);
       if (nextMove) {
         console.log(this.name + " as " + this.colour + " to move " + nextMove);
         this.api.makeMove(this.gameId, nextMove);
